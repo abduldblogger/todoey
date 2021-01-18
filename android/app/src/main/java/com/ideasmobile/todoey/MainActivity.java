@@ -1,4 +1,4 @@
-package co.appbrewery.state_management_examples;
+package com.ideasmobile.todoey;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
