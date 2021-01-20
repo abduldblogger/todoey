@@ -1,18 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:state_management_examples/model/task_data.dart';
 import 'package:state_management_examples/screens/add_task_bottom_sheet.dart';
 import 'package:state_management_examples/widgets/tasks_list.dart';
 
-import '../task.dart';
-
-class TaskScreen extends StatefulWidget {
-  @override
-  _TaskScreenState createState() => _TaskScreenState();
-}
-
-class _TaskScreenState extends State<TaskScreen> {
-  final List<Task> tasks = [];
-
+class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,16 +15,13 @@ class _TaskScreenState extends State<TaskScreen> {
             showModalBottomSheet(
               context: context,
               isScrollControlled: true,
-              // builder: (context) => AddTaskBottomSheet(),
               builder: (context) => SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: AddTaskBottomSheet(
                     onButtonClicked: (String value) {
-                      setState(() {
-                        tasks.add(Task(name: value));
-                      });
+                      Provider.of<TaskData>(context).addTask(value);
                       Navigator.pop(context);
                     },
                   ),
@@ -77,7 +67,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     ),
                   ),
                   Text(
-                    '${tasks.length} Tasks',
+                    '${Provider.of<TaskData>(context).length} Tasks',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -88,12 +78,7 @@ class _TaskScreenState extends State<TaskScreen> {
             ),
             Expanded(
               child: Container(
-                child: TasksList(
-                  tasks: tasks,
-                  onCheckListener: () {
-                    setState(() {});
-                  },
-                ),
+                child: TasksList(),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
