@@ -8,7 +8,7 @@ class TaskData extends ChangeNotifier {
 
   void addTask(String task) {
     _tasks.add(Task(name: task));
-    notifyTaskDataListeners();
+    notifyListeners();
   }
 
   /// don't use this to add data into list
@@ -20,12 +20,13 @@ class TaskData extends ChangeNotifier {
     return _tasks.length;
   }
 
-  void notifyTaskDataListeners() {
+  void updateTask(Task task) {
+    task.toggleDone();
     notifyListeners();
   }
 
-  void updateValue(Task task) {
-    task.toggleDone();
-    notifyTaskDataListeners();
+  void deleteTask(Task task) {
+    _tasks.remove(task);
+    notifyListeners();
   }
 }
