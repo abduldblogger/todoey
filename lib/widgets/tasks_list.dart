@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:state_management_examples/model/task_data.dart';
+import 'package:state_management_examples/screens/add_task_bottom_sheet.dart';
 import 'package:state_management_examples/widgets/task_tile.dart';
 
 class TasksList extends StatelessWidget {
@@ -13,7 +14,20 @@ class TasksList extends StatelessWidget {
           final task = taskData.tasks[index];
           return TaskTile(
             onLongPressed: () {
-              taskData.deleteTask(task);
+              // taskData.deleteTask(task);
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return AddTaskBottomSheet(
+                      showTextField: false,
+                      title: 'Delete Task ?',
+                      buttonTitle: 'Delete!',
+                      onButtonClicked: (String value) {
+                        taskData.deleteTask(task);
+                        Navigator.pop(context);
+                      },
+                    );
+                  });
             },
             taskTitle: task.name,
             isChecked: task.isDone,

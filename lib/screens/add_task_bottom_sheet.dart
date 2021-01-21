@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 
 class AddTaskBottomSheet extends StatelessWidget {
   final Function onButtonClicked;
+  final String title;
+  final String buttonTitle;
+  final bool showTextField;
 
-  AddTaskBottomSheet({this.onButtonClicked});
+  AddTaskBottomSheet(
+      {@required this.onButtonClicked,
+      this.title = 'Add Task',
+      this.buttonTitle = 'Add',
+      this.showTextField = true});
 
   @override
   Widget build(BuildContext context) {
@@ -20,23 +27,25 @@ class AddTaskBottomSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Add Task',
+                title,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25,
                   color: Colors.lightBlueAccent,
                 ),
               ),
-              TextField(
-                onChanged: (value) {
-                  strTask = value;
-                },
-                autofocus: true,
-                style: TextStyle(
-                  color: Colors.lightBlueAccent,
-                  fontSize: 20,
-                ),
-              ),
+              (showTextField)
+                  ? TextField(
+                      onChanged: (value) {
+                        strTask = value;
+                      },
+                      autofocus: true,
+                      style: TextStyle(
+                        color: Colors.lightBlueAccent,
+                        fontSize: 20,
+                      ),
+                    )
+                  : Container(),
               SizedBox(
                 height: 20,
               ),
@@ -44,7 +53,7 @@ class AddTaskBottomSheet extends StatelessWidget {
                 color: Colors.lightBlueAccent,
                 textColor: Colors.white,
                 child: Text(
-                  'Add',
+                  buttonTitle,
                 ),
                 onPressed: () {
                   onButtonClicked(strTask);
